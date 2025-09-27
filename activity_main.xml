@@ -29,6 +29,7 @@
             />
 
         <TextView
+            android:id="@+id/tvFinalBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BDT 0.00 "
@@ -80,6 +81,7 @@
                 />
 
             <TextView
+                android:id="@+id/tvTotalExpense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BDT 0.00"
@@ -96,6 +98,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/tvAddExpense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Expense"
@@ -109,6 +112,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tvShowAllDataExpense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Show All Data"
@@ -166,6 +170,7 @@
                 />
 
             <TextView
+                android:id="@+id/tvTotalIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BDT 0.00"
@@ -182,6 +187,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/tvAddIncome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Income"
@@ -195,6 +201,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tvShowAllDataIncome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Show All Data"
