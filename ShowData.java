@@ -27,6 +27,8 @@ public class ShowData extends AppCompatActivity {
     HashMap<String, String> hashMap;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,17 @@ public class ShowData extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
 
+        loadData();
+
+
+
+
+
+    }
+
+    //{{{{{{{{{{{{{{{{{{-}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+    //Data রাখার পুরা system টা loadData এর ভিতর রাখছি onCreate এর পর । onCreate এ loadData() কল করেছি
+    public  void loadData(){
 
         Cursor cursor = dbHelper.showAllData();
         if (cursor != null && cursor.getCount() > 0) {
@@ -69,10 +82,12 @@ public class ShowData extends AppCompatActivity {
             tvTitle.append("\n No Data Found");
 
         }
-
-
-
     }
+
+    //{{{{{{{{{{{{{{{{{{-}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+
+
     //Layout xml create করতে হবে। New>>XML>>Layout XML File >>name:item >>ok
 
     //------------------------------------Adapter Create
