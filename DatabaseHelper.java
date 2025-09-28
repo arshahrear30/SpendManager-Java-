@@ -1,97 +1,139 @@
 package com.arshahrear.spendmanager;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-//1 java class টা open হলে public class DatabaseHelper এর পাশে extends SQLiteOpenHelper লিখো enter করো
-//2 red bulb>> implement method >>ok || Again red bulb>> Create constructor >>ok
-public class DatabaseHelper extends SQLiteOpenHelper {
-    public DatabaseHelper(Context context) { // 3 সব কেটে দিয়ে শুধু Context context লিখবো
+import java.util.ArrayList;
+import java.util.HashMap;
 
-        super(context, "digital_moneybag", null, 1); //4 Database file name digital_moneybag set করলাম 1st version
-    }
+public class ShowData extends AppCompatActivity {
+    ListView listView;
+    TextView tvTitle;
+    DatabaseHelper dbHelper;
+
+    ArrayList<HashMap<String, String>> arrayList ;
+    HashMap<String, String> hashMap;
+
 
     @Override
-    public void onCreate(SQLiteDatabase db) { //5 table create
-
-        db.execSQL("create table expense(id INTEGER primary key autoincrement,amount DOUBLE,reason TEXT,time DOUBLE)");
-        db.execSQL("create table income(id INTEGER primary key autoincrement,amount DOUBLE,reason TEXT,time DOUBLE)");
-
-
-    }
-
-    @Override //6
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //onUpgrade() মেথডটা তখনই কল হয়, যখন আপনার অ্যাপের ডাটাবেস version number পরিবর্তন করা হয়।
-        //পুরনো টেবিল ফেলে দিয়ে নতুন টেবিল তৈরি করার জন্য DROP TABLE IF EXISTS ব্যবহার করা হয়।
-        db.execSQL("DROP TABLE IF EXISTS expense");
-        db.execSQL("DROP TABLE IF EXISTS income");
-
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_show_data);
+        listView = findViewById(R.id.listView);
+        tvTitle = findViewById(R.id.tvTitle);
+        dbHelper = new DatabaseHelper(this);
 
 
-    //7--------------------------------------------এতক্ষণ ডাটাবেসের টেবিল তৈরি করেছি এখন database ইনপুট করব addExpense method
-    public void addExpense(double amount, String reason){
-        SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues conval=new ContentValues();
-        conval.put("amount",amount);
-        conval.put("reason",reason);
-        conval.put("time",System.currentTimeMillis()); //Chrome search: android get time in milliseconds
 
-        db.insert("expense",null,conval);
-
-    }
-    //--------------------------------------------
-
-    //8 same--------------------------------------------database ইনপুট  addIncome method
-    public void addIncome(double amount, String reason){
-        SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues conval=new ContentValues();
-        conval.put("amount",amount);
-        conval.put("reason",reason);
-        conval.put("time",System.currentTimeMillis()); //Chrome search: android get time in milliseconds
-
-        db.insert("income",null,conval);
-
-    }
-    //--------------------------------------------
+        Cursor cursor = dbHelper.showAllData();
+        if (cursor != null && cursor.getCount() > 0) {
 
 
-    //9 ============================================খরচ টাকা table যুক্ত করছি।টোটাল টাকা দেখানোর জন্য select from দিয়ে পুরা expense টেবিল ধরছি নিচে loop দিয়ে যোগ করছি
-    public double calculateTotalExpense() {
-        double totalExpense=0;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(  "select * from expense",  null);
-        if (cursor!=null && cursor.getCount()>0){
-            while ( cursor.moveToNext() ) {
-                double amount = cursor.getDouble(  1);
-                totalExpense = totalExpense+amount;
+            arrayList = new ArrayList<>();
+            while (cursor.moveToNext()) {
+
+                int id = cursor.getInt(0);
+                double amount = cursor.getDouble(1);
+                String reason = cursor.getString(2);
+                double time = cursor.getDouble(3);
+
+
+                hashMap = new HashMap<>();
+                hashMap.put("id", ""+id);
+                hashMap.put("amount", ""+amount);
+                hashMap.put("reason", ""+reason);
+                hashMap.put("time", ""+time);
+
+                arrayList.add(hashMap);
             }
+//....adapter call করছি just ।। create করছি নিচে
+
+            listView.setAdapter(new MyAdapter());
+
+//...................
+
+        }else{
+            tvTitle.append("\n No Data Found");
+
         }
-        return totalExpense;
-    }
-//============================================
 
 
-    //10 same============================================ইনকাম টাকা যে যুক্ত করছি সেটা টোটাল টাকা দেখানোর জন্য
-    public double calculateTotalIncome() {
-        double totalIncome=0;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(  "select * from income",  null);
-        if (cursor!=null && cursor.getCount()>0){
-            while ( cursor.moveToNext() ) {
-                double amount = cursor.getDouble(  1);
-                totalIncome = totalIncome+amount;
-            }
-        }
-        return totalIncome;
+
     }
-//============================================
+    //Layout xml create করতে হবে। New>>XML>>Layout XML File >>name:item >>ok
+
+    //------------------------------------Adapter Create
+
+   // public class MyAdapter extends BaseAdapter {} এতটুকু লেখার পর red bulb এ click দিয়ে implement methods >> ok
+    public class MyAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return arrayList.size();
+            //return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflate = getLayoutInflater();
+            View myView = inflate.inflate(R.layout.item, parent,false);
+
+            TextView tvReason = myView.findViewById(R.id.tvReason);
+            TextView tvAmount = myView.findViewById(R.id.tvAmount);
+            TextView tvDelete = myView.findViewById(R.id.tvDelete);
+
+          hashMap = arrayList.get(position);
+
+            String id = hashMap.get("id");
+            String amount = hashMap.get("amount");
+            String reason = hashMap.get("reason");
+            String time = hashMap.get("time");
+
+            tvReason.setText(reason);
+            tvAmount.setText("BDT "+amount);
+
+//ddddddddddddddddddddddddddddddddddddddddddddddd
+
+            //Delete এর জন্য কাজ করবো
+
+            tvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dbHelper.deleteByid(id); // এতটুকু পর্যন্ত করলে data delete হবে ।
+                    // but auto load হয়ে data সরে যাবে না । পুরা app থেকে বের হয়ে আবার ঢুকলে তখন দেখবো data গেছে।
+
+                }
+            });
+//ddddddddddddddddddddddddddddddddddddddddddddddd
+
+
+            return myView;
+        }
+    }
+
 
 
 }
