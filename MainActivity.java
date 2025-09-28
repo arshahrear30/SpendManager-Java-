@@ -60,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
         });
         //???????????????????????????????????????????????
 
+//''''''''''''''''''''''''''''''''''''''
+        tvShowAllDataExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, ShowData.class));
+            }
+        });
+//''''''''''''''''''''''''''''''''''''''
 
 
         //7 =========
