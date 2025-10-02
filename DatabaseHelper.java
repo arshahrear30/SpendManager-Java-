@@ -95,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //\\\\\\\\\\\\\\\\\\\\Data show করার জন্য showAllData method create করছি । Database table থাকা data cursor হিসেবে return করবে
 
-    public Cursor showAllData(){
+    public Cursor showAllExpense(){
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery("select * from expense",null);
         return cursor;
@@ -107,13 +107,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //\\\\\\\\\\\\\\\\\\\\
 
+
+
+    //\\\\\\\\\\\\\\\\\\\\Data show করার জন্য showAllData method create করছি । Database table থাকা data cursor হিসেবে return করবে
+
+    public Cursor showAllIncome(){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("select * from income",null);
+        return cursor;
+
+
+
+    }
+
+
+    //\\\\\\\\\\\\\\\\\\\\
+
     //ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 
-    public void deleteByid(String id){
+    public void deleteExpense(String id){
 
 
         SQLiteDatabase db=this.getWritableDatabase();
-        db.execSQL("delete from expense where id like="+id);
+        db.execSQL("DELETE FROM expense WHERE id = " + id);
+
+    }
+
+
+    //ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+
+    //ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+
+    public void deleteIncome(String id){
+
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("DELETE FROM income WHERE id = " + id);
 
     }
 
