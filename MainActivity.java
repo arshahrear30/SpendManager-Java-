@@ -1,5 +1,5 @@
 package com.arshahrear.spendmanager;
-
+//MainActivity.java👍
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     //0 xml create
     //1 declare variable
     //এক Activity থেকে অন্য Activity-তে যান, তখন প্রথম Activity (যেটা ব্যাকগ্রাউন্ডে যায়) onPause() এবং পরে onStop() কল পায়।
-    // যখন  Back Press করে বা অন্যভাবে সেই Activity-তে ফিরে আসেন, তখন যে মেথডটি কল হয় onResume()
+    // যখন  Back Press করে বা অন্যভাবে সেই Activity-তে ফিরে আসে, তখন যে মেথডটি কল হয় onResume()
     TextView tvFinalBalance, tvTotalExpense, tvTotalIncome, tvAddExpense, tvShowAllDataExpense, tvAddIncome, tvShowAllDataIncome;
     DatabaseHelper dbHelper; //সবগুলো class এ এটার কাজ প্রয়োজন পড়ে তাই ধরতে হয়
     @Override
@@ -35,49 +35,63 @@ public class MainActivity extends AppCompatActivity {
         tvShowAllDataIncome = findViewById(R.id.tvShowAllDataIncome);
         dbHelper = new DatabaseHelper(this);//সবগুলো class এ এটার কাজ প্রয়োজন পড়ে তাই ধরতে হয়
 
-        //3 DatabaseHelper.java class create  package name উপর mouse right click>> New>>Javaclass>>DatabaseHelper (next guide on his class)
-        //4 New >>Activity>>'Empty views Activity' create >>  name: AddData
+        //3 👍DatabaseHelper.java class create : package name উপর mouse right click>> New>>Javaclass>>DatabaseHelper (next guide on his class)
+        //4 👍AddDataNew.java class create : New>>Activity>>'Empty views Activity' create >>  name: AddData
 
-        //5....................................... tvAddExpense  call
+//5   ??????????????????????????????????????????????? tvAddExpense  call
         tvAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                AddData.EXPENSE=true;//AddData.java class এর একটা স্ট্যাটিক ভ্যারিয়েবল ডিক্লেয়ার করা হয়েছে
-                startActivity(new Intent(MainActivity.this, AddData.class));
+                AddData.EXPENSE=true;//AddData.java class এর একটা স্ট্যাটিক ভ্যারিয়েবল  (EXPENSE=true শর্ত) ডিক্লেয়ার করা হয়েছে
+                startActivity(new Intent(MainActivity.this, AddData.class)); //নতুন Activity তে যাওয়ার জন্য
             }
         });
-        //......................................
+//   ???????????????????????????????????????????????
 
 
-        //6  ??????????????????????????????????????????????? tvAddIncome call
+        //5.1  ??????????????????????????????????????????????? tvAddIncome call
         tvAddIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddData.EXPENSE=false;
+                AddData.EXPENSE=false;//EXPENSE=false হইলে AddData.java তে যাও নতুনভাবে নতুনরুপে
                 startActivity(new Intent(MainActivity.this, AddData.class));
             }
         });
         //???????????????????????????????????????????????
 
-//''''''''''''''''''''''''''''''''''''''
+
+
+//7 ''''''''''''''''''''''''''''''''''''''
         tvShowAllDataExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //👍 ShowData.java class create : New>>Activity>>'Empty views Activity' create >>  name: ShowData
+                ShowData.LoadMe=true;
                 startActivity(new Intent(MainActivity.this, ShowData.class));
             }
         });
 //''''''''''''''''''''''''''''''''''''''
 
 
-        //7 =========
+        //7.1''''''''''''''''''''''''''''''''''''''
+        tvShowAllDataIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowData.LoadMe=false;
+                startActivity(new Intent(MainActivity.this, ShowData.class));
+            }
+        });
+        //''''''''''''''''''''''''''''''''''''''
+
+
+        //6 =========
         upDateUI(); //onCreate এর মধ্যে upDateUI() কল করে রাখছি যেটা দিয়ে onPostResume কল করছি
         //=========
 
     }
 
-//8 ---------------------------পকেটে এখন কত টাকা আছে সেটা দেখানোর জন্য upDateUI() এ tvFinalBalance method কল করে রাখছি
+//6.1 ---------------------------পকেটে এখন কত টাকা আছে সেটা দেখানোর জন্য upDateUI() এ tvFinalBalance method কল করে রাখছি
     private void upDateUI() {
         tvTotalExpense.setText("BDT "+dbHelper.calculateTotalExpense()); //upDateUI onPostResume method না বানালে data input দিয়ে
         tvTotalIncome.setText("BDT "+dbHelper.calculateTotalIncome());//back activity তে আসলে income /expense/finalbalance update হয়ে show করতো না
@@ -87,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //7.1 ============  mouse right click>>Generate>>override method>>search: onPostResume
+    //6.2 ============  mouse right click>>Generate>>override method>>search: onPostResume
     @Override
     protected void onPostResume() {
         super.onPostResume();
