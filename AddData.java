@@ -1,5 +1,5 @@
 package com.arshahrear.spendmanager;
-
+//AddData.java
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
@@ -14,13 +14,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class AddData extends AppCompatActivity {
-//1
-    TextView tvTitle;
+
+    TextView tvTitle;//1
     EditText edAmount, edReason;
     Button button;
+
     DatabaseHelper dbHelper;//2
 
-    public static boolean EXPENSE=true; //EXPENSE = true হলে এটা খরচ আর false হলে এটা ইনকাম এভাবেই শর্ত ধরে খেলবো
+
+    public static boolean EXPENSE=true; //5.1 EXPENSE = true হলে এটা খরচ আর false হলে এটা ইনকাম এভাবেই শর্ত ধরে খেলবো
 
     //কোনো শর্ত বা অবস্থা প্রকাশ করতে boolean ব্যবহার করা হয়..EXPENSE নামের একটি স্ট্যাটিক ভ্যারিয়েবল ডিক্লেয়ার করা হয়েছে
     //এর টাইপ boolean, এবং সেট করা হয়েছে true ..boolean = হ্যাঁ/না টাইপ ভ্যালু
@@ -48,7 +50,7 @@ public class AddData extends AppCompatActivity {
 
                 String sAmount = edAmount.getText().toString();
                 String Reason = edReason.getText().toString();
-               double amount = Double.parseDouble(sAmount);
+                double amount = Double.parseDouble(sAmount);
 
                 if(EXPENSE==true) { //5
 
@@ -76,7 +78,7 @@ public class AddData extends AppCompatActivity {
 
     // ========================  এখন আমরা ব্যবহারকারী যদি ব্যাক বাটনে ক্লিক করে তাহলে সেই কাজটা সম্পূর্ণ করার মত মেথড টা কল করতে হবে
 //code এর খালি জায়গায় mouse right button>>Generate>>Override Methods>>search করো OnBackPressed()>>ok>>Red Bulb>>Suppress GestureBackNavigation
-    @SuppressLint("GestureBackNavigation") //7
+    @SuppressLint("GestureBackNavigation")   //7
     @Override
     public void onBackPressed() {
         super.onBackPressed();
